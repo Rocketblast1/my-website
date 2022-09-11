@@ -1,0 +1,67 @@
+.Page {
+  background-color: white;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100vh;
+  transition: background-color .5s ease-out,
+}
+
+.Page:hover {
+  background-color: lightgreen;
+  transition: background-color 1s ease-out,
+}
+
+.NavBar {
+  background-color: black;
+  display: flex;
+  position: sticky;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  height: 7vh;
+  top: 0;
+  z-index: 1000
+}
+
+#1 {
+  grid-area: "myArea";
+
+}
+
+#2 {
+  grid-area: "myArea1"
+}
+
+#3 {
+  grid-area: "myArea2"
+}
+
+.NavContainer {
+  background-color: red;
+  display: grid;
+  grid-template-areas: 'myArea myArea1 myArea2';
+  grid-gap: 2vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  background-color: #2196F3;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  right: 0%;
+}
+
+.NavButton {
+  background-color: white;
+  align-content: center;
+  /* justify-content: center;
+  text-align: center; */
+}
+
+@keyframes page-fade {
+  to {
+    background-color: lightblue;
+  }
+}
