@@ -145,9 +145,13 @@ function App() {
         <iframe className="ResumePreview" src={resumeLink} />
       </div>
       <div className="Page" id="Page3" name="Page 3">
-      <div className="AboutMeContainer">
+        <div className="AboutMeContainer">
           <div className="AboutMe">
-            I really love developing applications that make things easier and more effective. Please Contact Me at any of my
+            <div>I really love developing applications that make things easier and more effective.</div>
+            <div> I also really playing video games</div>
+            <div> I also really love music</div>
+            <div>I also really love Quantum Mechanics</div>
+            Please Contact me using one of the options below!8
           </div>
         </div>
       </div>
