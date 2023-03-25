@@ -29,6 +29,7 @@
   flex: 1;
   flex-direction: column;
 }
+
 /* Specifying page 1's actions */
 #Page1:hover {
   background-color: lightgreen;
@@ -84,7 +85,23 @@
   font-size: 3vh;
 }
 
-/* @keyframes page-fade {
+.AboutMeContainer{
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.AboutMe  {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* @keyframes page-fade {r
   to {
     background-color: lightblue;
   }

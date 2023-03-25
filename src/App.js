@@ -113,7 +113,7 @@ function App() {
             id="Nav3"
             className="NavButton"
             onClick={() => {
-              handleScrollTo("Page 3")
+              handleScrollTo("About Me")
             }}
           >
             About Me
@@ -144,14 +144,14 @@ function App() {
       <div className="Page" id="Resume" name="Resume">
         <iframe className="ResumePreview" src={resumeLink} />
       </div>
-      <div className="Page" id="Page3" name="Page 3">
+      <div className="Page" id="About Me" name="About Me">
         <div className="AboutMeContainer">
           <div className="AboutMe">
-            <div>I really love developing applications that make things easier and more effective.</div>
-            <div> I also really playing video games</div>
-            <div> I also really love music</div>
-            <div>I also really love Quantum Mechanics</div>
-            Please Contact me using one of the options below!8
+            <div> I really love developing applications that make things easier and more effective. </div>
+            <div> I also really playing video games </div>
+            <div> I also really love music </div>
+            <div> I also really love Quantum Mechanics </div>
+            <div> Please Contact me using one of the options below! </div>
           </div>
         </div>
       </div>
