@@ -101,6 +101,11 @@
   flex-direction: column;
 }
 
+.tp-logo {
+  height: min(100px, 20vh);
+  padding: min(10px, 1vh);
+}
+
 /* @keyframes page-fade {r
   to {
     background-color: lightblue;

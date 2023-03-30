@@ -2,54 +2,130 @@ import logo from "./logo.svg";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import * as Scroll from "react-scroll";
 import "./App.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { Html, useGLTF } from "@react-three/drei";
+import { Html, Trail, useGLTF, Clone } from "@react-three/drei";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Brain } from "./Brain";
-
+import { Vector3 } from 'three';
 const scroller = Scroll.scroller;
 
 const Sphere = (props) => {
-  const ref = useRef();
+
+  const ref = useRef()
 
   return (
-    <mesh ref={ref} position={[props.gap, 0, 0]} scale={0.1}>
+    <mesh ref={ref} position={props.position} scale={0.09} >
       <sphereGeometry />
       <meshStandardMaterial color="blue" transparent opacity={0.6} />
     </mesh>
+
+  );
+};
+
+const ShrinkingSphere = (props) => {
+
+  const ref = useRef()
+
+  // useFrame(({ clock }) => {
+  //   ref.current.scale -= clock.getElapsedTime()
+  // })
+
+  return (
+    <mesh ref={ref} position={props.position} scale={0.09} >
+      <sphereGeometry />
+      <meshStandardMaterial color="blue" transparent opacity={0.6} />
+    </mesh>
+
   );
 };
 
 
+
+
 const RevolvingSphere = (props) => {
   const groupRef = useRef();
+  const sphereRef = useRef();
+  const trailsRef = useRef();
+  const [trail, setTrail] = useState([]);
+
+
   useFrame(({ clock }) => {
     groupRef.current.rotation.z = props.speedFactor * clock.getElapsedTime();
     groupRef.current.rotation.x = props.angle;
+    if (trail.length > 2) {
+      setTrail((trail) => {
+        trail.filter()
+        return [...a]
+      }
+
+      )
+    } else {
+      setTrail((trail) =>
+        [...trail, {
+          gap: props.gap,
+          rotation: groupRef.current.rotation,
+        }]
+      )
+      // setTrail(() => {
+      //   trail.slice(trail.indexOf(trail.pop()))
+      //   return [...trail];
+      // });
+      // setTrail([...trail, {
+      //   gap: props.gap,
+      //   rotation: groupRef.current.rotation,
+      // }])
+    }
+    // console.log(groupRef.current.rotation);
+    // console.log(trail);
+
+
+
+
+
   })
   return (
-    <group ref={groupRef} position={props.position} >
-      <Sphere gap={props.gap} />
-    </group>
+    <>
+      <group ref={groupRef}  >
+        <Sphere position={[props.gap, 0, 0]} />
+      </group>
+      {trail.map((sphere, index) => (
+        <group rotation={sphere.rotation}>
+          <ShrinkingSphere key={index} position={[props.gap, 0, 0]} />
+        </group>
+      ))}
+    </>
+
   )
 }
-
 const SphereGroup = (props) => {
   const groupRef = useRef();
+  const ref = useRef();
+  const [spheres, setSpheres] = useState([])
+  useMemo(() => {
 
+  }, [spheres])
 
+  useEffect(() => {
+    let a = [];
+    for (let index = 0; index < 1; index++) {
+      const posOrNeg = Math.random() * 2 - 1;
+      a.push({
+        gap: Math.random() * (3 - 1 + 1) + 1,
+        speedFactor: posOrNeg * (Math.random() * (9 - 4 + 1) + 9),
+        angle: Math.random() * 360,
+        position: [Math.random() * (25 - 15 + 1) + 15, 0, 0]
+      })
+    }
+    setSpheres([...a,])
+  }, [])
 
   return (
     <group ref={groupRef}>
-      <RevolvingSphere speedFactor={2} gap={2} angle={10} />
-      <RevolvingSphere speedFactor={5} gap={1.1} angle={170} />
-      <RevolvingSphere speedFactor={-1} gap={1.7} angle={60} />
-      <RevolvingSphere speedFactor={3} gap={1} angle={-90} />
-      <RevolvingSphere speedFactor={2} gap={1.3} angle={120} />
-      <RevolvingSphere speedFactor={-5} gap={1.1} angle={150} />
+      {spheres.map((sphere, index) => (
+        <RevolvingSphere key={index} speedFactor={sphere.speedFactor} gap={sphere.gap} angle={sphere.angle} />
+      ))}
     </group>
-
   )
 }
 
@@ -61,6 +137,7 @@ const HTMLContent = () => {
     </mesh>
   );
 };
+
 
 const handleScrollTo = (name) => {
   scroller.scrollTo(name, {
@@ -137,6 +214,7 @@ function App() {
           <pointLight position={[10, 10, 10]} />
           <pointLight position={[-10, -10, 10]} />
           <Brain />
+          {/* <Sphere position={[10,10,10]} /> */}
           <SphereGroup />
         </Canvas>
 
@@ -152,6 +230,10 @@ function App() {
             <div> I also really love music </div>
             <div> I also really love Quantum Mechanics </div>
             <div> Please Contact me using one of the options below! </div>
+            <div className="LinksContainer">
+              <img alt="Github" className="tp-logo" src={require("./github-mark.png")} />
+              <img className="tp-logo" src={require("./LI-In-Bug.png")} />
+            </div>
           </div>
         </div>
       </div>
