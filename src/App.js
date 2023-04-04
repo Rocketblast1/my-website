@@ -1,13 +1,10 @@
-import logo from "./logo.svg";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import * as Scroll from "react-scroll";
 import "./App.css";
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Html, Trail, useGLTF, Clone } from "@react-three/drei";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Brain } from "./Brain";
-import { Vector3 } from 'three';
 const scroller = Scroll.scroller;
 
 const Sphere = (props) => {
@@ -48,52 +45,52 @@ const RevolvingSphere = (props) => {
   const sphereRef = useRef();
   const trailsRef = useRef();
   const [trail, setTrail] = useState([]);
+  const { scene } = useThree();
+
+  useEffect(() => {
+    let addToTrail = setInterval(() => {
+      setTrail((trail) => [...trail,
+      <group rotation={groupRef.current.rotation}>
+        <ShrinkingSphere position={[props.gap, 0, 0]} />
+      </group>
+      ])
+      setTimeout(() => {
+        // trail.slice(0, trail.length - 1)
+        let len = trailsRef.current.children.length
+
+        console.log(scene.remove(scene.getObjectById(trailsRef.current.children[len - 1].id)));
+        console.log(trail.slice(0, trail.length - 1))
+
+      }, 100)
+    }, 1000)
 
 
-  useFrame(({ clock }) => {
+
+    if (trail.length > 5) {
+      clearInterval(addToTrail)
+    }
+
+    return () => {
+      clearInterval(addToTrail)
+    }
+  })
+
+
+  useFrame(({ clock, scene }) => {
     groupRef.current.rotation.z = props.speedFactor * clock.getElapsedTime();
     groupRef.current.rotation.x = props.angle;
-    if (trail.length > 2) {
-      setTrail((trail) => {
-        trail.filter()
-        return [...a]
-      }
-
-      )
-    } else {
-      setTrail((trail) =>
-        [...trail, {
-          gap: props.gap,
-          rotation: groupRef.current.rotation,
-        }]
-      )
-      // setTrail(() => {
-      //   trail.slice(trail.indexOf(trail.pop()))
-      //   return [...trail];
-      // });
-      // setTrail([...trail, {
-      //   gap: props.gap,
-      //   rotation: groupRef.current.rotation,
-      // }])
-    }
-    // console.log(groupRef.current.rotation);
-    // console.log(trail);
-
-
-
-
 
   })
   return (
     <>
-      <group ref={groupRef}  >
-        <Sphere position={[props.gap, 0, 0]} />
+      <group ref={groupRef}>
+        <Trail width={20} >
+          <Sphere position={[props.gap, 0, 0]} />
+        </Trail>
       </group>
-      {trail.map((sphere, index) => (
-        <group rotation={sphere.rotation}>
-          <ShrinkingSphere key={index} position={[props.gap, 0, 0]} />
-        </group>
-      ))}
+      <group ref={trailsRef}>
+        {trail}
+      </group>
     </>
 
   )
